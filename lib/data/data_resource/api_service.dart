@@ -57,7 +57,7 @@ class ApiService {
   }
 
   Future<Response> update(String path,
-      {Map<String, dynamic>? queryParams, Map<String, dynamic>? body}) {
+      {Map<String, dynamic>? queryParams, Map<String, dynamic>? body,  String? token}) {
     try {
       final response = _dio.put(path, queryParameters: queryParams, data: body);
       return response;

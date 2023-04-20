@@ -5,15 +5,13 @@ import '../../data/models/favourite/change_favourite_model.dart';
 import '../../data/models/favourite/favourite_model.dart';
 import '../../data/repositories/favourite_repository/favourite_repository.dart';
 
-class FavouriteCubit extends Cubit<FavouriteStates>
-{
-  FavouriteCubit():super(IntialState());
-  static FavouriteCubit get(context)=>BlocProvider.of(context);
+class FavouriteCubit extends Cubit<FavouriteStates> {
+  FavouriteCubit() : super(IntialState());
+  static FavouriteCubit get(context) => BlocProvider.of(context);
 
   ChangingProductFavouriteModel? _changingProductFavouriteModel;
   Map<int, bool> FavoritesProducts = {};
-  final favouriteRopsitory =
-  FavouriteRepository(ApiService());
+  final favouriteRopsitory = FavouriteRepository(ApiService());
   FavouriteModel? favouriteModel;
 
   void getFavouriteProductData() async {
@@ -26,30 +24,21 @@ class FavouriteCubit extends Cubit<FavouriteStates>
     }
   }
 
-  changeProductFavourite(int ProductId) {
+  changeProductFavourite(int id) {
+    FavoritesProducts[id] = !FavoritesProducts[id]!;
     emit(ChangingProductFavouriteLoading());
-    checkProductFavourite(ProductId);
     try {
       _changingProductFavouriteModel =
-          favouriteRopsitory.changeFavouriteData(ProductId);
+          favouriteRopsitory.changeFavouriteData(id);
+      emit(ChangingProductFavouriteSuccess());
       if (_changingProductFavouriteModel!.status == false) {
-        checkProductFavourite(ProductId);
+        FavoritesProducts[id] = !FavoritesProducts[id]!;
       } else {
         getFavouriteProductData();
       }
     } catch (error) {
-      checkProductFavourite(ProductId);
       emit(ChangingProductFavouriteErorr(error.toString()));
-    }
-  }
-
-  void checkProductFavourite(int ProductId) {
-    if (FavoritesProducts[ProductId] == true) {
-      FavoritesProducts[ProductId] = false;
-      emit(ChangingProductFavouriteSuccess());
-    } else {
-      FavoritesProducts[ProductId] = true;
-      emit(ChangingProductFavouriteSuccess());
+      FavoritesProducts[id] = !FavoritesProducts[id]!;
     }
   }
 }

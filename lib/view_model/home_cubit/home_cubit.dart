@@ -13,7 +13,6 @@ class HomeCubit extends Cubit<HomeStates>
   final homeRepository =
   HomeRepository(ApiService());
   HomeModel? homeModel;
-  ProductModel? productModel;
 
   void getHomeData(context) async {
     emit(GettingHomeDataLoading());
@@ -29,13 +28,5 @@ class HomeCubit extends Cubit<HomeStates>
     }
   }
 
-  void getHomeProductData() async {
-    emit(GettingHomeProductDataLoading());
-    try {
-      productModel = await homeRepository.getHomeProductData();
-      emit(GettingHomeProductDataSuccess());
-    } catch (erorr) {
-      emit(GettingHomeProductDataErorr(erorr.toString()));
-    }
-  }
+
 }

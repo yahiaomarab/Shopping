@@ -8,4 +8,9 @@ class ApiConstants {
   static const UPDATE_PROFILE = 'update-profile';
   static const SEARCH = 'products/search';
   static const baseUrl = 'https://student.valuxapps.com/api/';
+  static const CARTS = 'carts';
+  static const PRODUCT = 'products';
+  static const FAQS = 'faqs';
+  static const PASSWORD = 'change-password';
+  static const ADDRESSES = 'addresses';
 }

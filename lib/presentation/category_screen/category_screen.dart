@@ -4,6 +4,7 @@ import 'package:shop_app/view_model/category_cubit/category_cubit.dart';
 import 'package:shop_app/view_model/category_cubit/category_states.dart';
 import '../../data/models/categories/category_model.dart';
 import '../../widgets/component/components.dart';
+import 'catProduct_screen.dart';
 
 class CategoryScreen extends StatelessWidget {
   @override
@@ -17,7 +18,7 @@ class CategoryScreen extends StatelessWidget {
             body: ListView.separated(
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) =>
-                  catitem(cubit.categoryModel!.data!.data[index]),
+                  catitem(cubit.categoryModel!.data!.data[index], context),
               separatorBuilder: (context, index) => devidorLine(),
               itemCount: cubit.categoryModel!.data!.data.length,
             ),
@@ -25,7 +26,7 @@ class CategoryScreen extends StatelessWidget {
         });
   }
 
-  Widget catitem(DataModel model) {
+  Widget catitem(DataModel model, context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
@@ -46,7 +47,10 @@ class CategoryScreen extends StatelessWidget {
           ),
           const Spacer(),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              CategoryCubit.get(context).getCatData(model.id);
+              navTo(context, CategoryProductsScreen(model.name,model.id));
+            },
             icon: const Icon(Icons.arrow_forward_ios),
           ),
         ],

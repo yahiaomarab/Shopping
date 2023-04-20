@@ -6,6 +6,7 @@ import 'package:shop_app/view_model/favourite_cubit/favourite_cubit.dart';
 import 'package:shop_app/widgets/styles/colors/colors.dart';
 import '../../data/models/categories/category_model.dart';
 import '../../data/models/home/home_model.dart';
+import '../../view_model/product_cubit/product_cubit.dart';
 
 Future<void> navTo(context, widget) async {
   Navigator.push(
@@ -185,7 +186,9 @@ Widget buildProductItem(model, context, {bool isOldPrice = true}) => Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
       child: GestureDetector(
         onTap: () {
-          navTo(context, ProductScreen(model: model));
+          navTo(context, ProductScreen(model.id));
+          ProductCubit.get(context).getProductData(model.id);
+
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
@@ -305,11 +308,11 @@ Widget buildProductItem(model, context, {bool isOldPrice = true}) => Padding(
 Widget buildGridProduct(ProductModel model, context) {
   return GestureDetector(
     onTap: () {
-      navTo(
-          context,
-          ProductScreen(
-            model: model,
+      navTo(context, ProductScreen(
+            model.id,
           ));
+      ProductCubit.get(context).getProductData(model.id);
+
     },
     child: ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -321,13 +324,10 @@ Widget buildGridProduct(ProductModel model, context) {
             children: [
               Stack(
                 children: [
-                  Hero(
-                    tag: model.id,
-                    child: Image(
-                      image: NetworkImage(model.image),
-                      width: double.infinity,
-                      height: 200,
-                    ),
+                  Image(
+                    image: NetworkImage(model.image),
+                    width: double.infinity,
+                    height: 200,
                   ),
                   Row(
                     children: [
@@ -455,3 +455,50 @@ Widget buildCategoryItem(
     ],
   );
 }
+Widget defaultButton(
+    {
+      double? height,
+      IconData? icon,
+      double width = double.infinity,
+      double radius = 30.0,
+      Color background = customColor,
+      required Function function,
+      required String text,
+    }) =>
+    Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius),
+          color: background,
+          boxShadow: [BoxShadow(
+            color: Colors.grey.withOpacity(0.5),spreadRadius: 1,
+            blurRadius: 4,
+            offset: Offset(0, 2),
+
+          ),]
+      ),
+      child: MaterialButton(onPressed: () {
+        function();
+      },
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Icon(icon,color: Colors.white,),
+              ),
+            Text(
+              text,
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white
+              ),
+            ),
+          ],
+        ),
+      ),
+    );

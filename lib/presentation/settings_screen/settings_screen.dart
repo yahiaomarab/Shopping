@@ -1,11 +1,8 @@
 import 'package:conditional_builder/conditional_builder.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/view_model/user_cubit/user_cubit.dart';
 import 'package:shop_app/view_model/user_cubit/user_states.dart';
-
-import '../../data/models/user/user_model.dart';
 import '../../widgets/component/components.dart';
 
 class SettingsScreen extends StatelessWidget {

@@ -4,9 +4,11 @@ import 'package:shop_app/data/data_resource/shared_prefrence.dart';
 import 'package:shop_app/presentation/layout_screen/layout_screen.dart';
 import 'package:shop_app/presentation/login_screen/login_screen.dart';
 import 'package:shop_app/presentation/onBoarding_screen/onboardingscreen.dart';
+import 'package:shop_app/view_model/cart_cubit/cart_cubit.dart';
 import 'package:shop_app/view_model/category_cubit/category_cubit.dart';
 import 'package:shop_app/view_model/favourite_cubit/favourite_cubit.dart';
 import 'package:shop_app/view_model/home_cubit/home_cubit.dart';
+import 'package:shop_app/view_model/product_cubit/product_cubit.dart';
 import 'package:shop_app/view_model/user_cubit/user_cubit.dart';
 import 'package:shop_app/widgets/styles/themes/light_theme/light_Theme.dart';
 
@@ -45,8 +47,10 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => HomeCubit()..getHomeData(context)),
           BlocProvider(
               create: (context) => CategoryCubit()..getCategoriesData()),
+          BlocProvider(create: (context) => CartCubit()..getCarts()),
           BlocProvider(
               create: (context) => FavouriteCubit()..getFavouriteProductData()),
+
           BlocProvider(
               create: (context) => UserCubit()..getUserProfileData(context)),
         ],
